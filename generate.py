@@ -30,8 +30,8 @@ for a in range(2,12):
                  
 graphs=np.array(graphs).reshape(-1,num_node,num_node)
 node_att=np.array(node_att).reshape(-1,num_node,2)
-np.save('WS_graph_node.npy',node_att)
-np.save('WS_graph.npy',graphs)
+np.save('/home/csolis/forked_repo_nedvae/graph_generator/WS_graph_node.npy',node_att)
+np.save('/home/csolis/forked_repo_nedvae/graph_generator/WS_graph.npy',graphs)
 
 
 

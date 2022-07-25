@@ -45,7 +45,7 @@ def compute_avg_diff_top_two(matrix):
 
 def SAP_compute(type_):
   continuous_factors=[True,True,True]
-  path='/home/csolis/forked_repo_nedvae/NED-VAE/quantitative_evaluation/'
+  path='/home/csolis/forked_repo_nedvae/quantitative_evaluation/'
   factor=np.transpose(np.load(path+'WS_factor_testing2.npy'))
   code=np.transpose(np.load(path+type_+'_WS_graph_testing2_z.npy').reshape(-1,9))
   train_length=int(factor.shape[1]/2)

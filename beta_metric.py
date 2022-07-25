@@ -10,7 +10,7 @@ import numpy as np
 from sklearn import linear_model
 
 def beta_metric_compute(type_):
- path='/home/csolis/forked_repo_nedvae/NED-VAE/quantitative_evaluation/'
+ path='/home/csolis/forked_repo_nedvae/quantitative_evaluation/'
  z_a1=np.load(path+type_+'_WS_graph_testing_a1_z.npy')
  z_a2=np.load(path+type_+'_WS_graph_testing_a2_z.npy')
  z_b1=np.load(path+type_+'_WS_graph_testing_b1_z.npy')
