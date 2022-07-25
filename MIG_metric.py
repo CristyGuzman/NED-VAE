@@ -34,7 +34,7 @@ def make_discretizer(target, num_bins):
 
 def MIG_compute(type_):
   num_bin=10
-  path='C:/Users/gxjco/OneDrive/DESKTOP/graph disentangled VAE/synthetic2_interprete/quantitative_evaluation/'
+  path='/home/csolis/forked_repo_nedvae/NED-VAE/quantitative_evaluation/'
   factor=np.transpose(np.load(path+'WS_factor_testing2.npy'))
   code=np.transpose(np.load(path+type_+'_WS_graph_testing2_z.npy').reshape(-1,9))
 
