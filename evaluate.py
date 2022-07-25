@@ -28,12 +28,12 @@ from optimizer import OptimizerVAE
 from model import *
 from preprocessing import *
 
-from quantitative_evaluation.beta_metric import*
-from quantitative_evaluation.DCI_metric import*
-from quantitative_evaluation.Factor_metric import*
-from quantitative_evaluation.MIG_metric import*
-from quantitative_evaluation.Mudularity import*
-from quantitative_evaluation.SAP_metric import*
+from beta_metric import*
+from DCI_metric import*
+from Factor_metric import*
+from MIG_metric import*
+from Mudularity import*
+from SAP_metric import*
 
 def sigmoid(x):
         return 1 / (1 + np.exp(-x))
