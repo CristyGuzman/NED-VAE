@@ -98,8 +98,8 @@ def load_data(dataset):
 
 
 def load_data_syn(type_):
-    adj=np.load('./graph generator/WS_graph.npy')
-    node=np.load('./graph generator/WS_graph_node.npy')
+    adj=np.load('/home/csolis/forked_repo_nedvae/graph_generator/WS_graph.npy')
+    node=np.load('/home/csolis/forked_repo_nedvae/graph_generator/WS_graph_node.npy')
     if type_=='train':
       index = [i for i in range(len(adj))]  
       np.random.shuffle(index) 
