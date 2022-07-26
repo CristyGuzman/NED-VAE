@@ -25,6 +25,7 @@ class GCNModelVAE(object):
         self.n_samples = num_nodes
         self.adj = placeholders['adj']   #edge attributes
         self.dropout = placeholders['dropout']
+        self.i = placeholders['i']
         self.adj_label = tf.reshape(placeholders['adj_orig'],[-1,2])
         self.weight_norm = 0
         
@@ -165,15 +166,50 @@ class GCNModelVAE(object):
             return   edge_reconstruction,edge_logits, node_reconstruction
 
 
-
+    def scatter_update_tensor(self, x, indices, updates): 
+        x_shape = tf.shape(x)
+        patch = tf.scatter_nd(indices, updates, x_shape)
+        mask = tf.greater(tf.scatter_nd(indices, tf.ones_like(updates), x_shape), 0)
+        return tf.where(mask, patch, x)
+    def fix_values(self,z,i):
+        z_t = tf.transpose(z)
+        print(z_t.shape, '#'*20)
+        tt_shape = tf.shape(z_t)
+        if FLAGS.num_factors == 9:
+            first = tf.slice(z_t, [i,0], [1,1])
+            filled = tf.fill([1, FLAGS.batch_size], tf.squeeze(tf.squeeze(first)))
+            indices = [[i]]
+        elif FLAGS.num_factors == 3:
+            first = tf.slice(z_t,[i*3,0],[3,1]) 
+            filled = tf.repeat(first, FLAGS.batch_size, axis=1) #shape (3,FLAGS.batch_size)
+            indices = [[i*3], [i*3+1], [i*3+2]]
+        z1 = self.scatter_update_tensor(z_t, indices, filled)
+        return tf.transpose(z1), i
 
     def sample(self):
         if FLAGS.if_visualize==0:
             z_n=self.z_mean_n+ tf.random.normal([FLAGS.batch_size,FLAGS.hidden13],stddev=0.1) * tf.exp(self.z_std_n)       
             z_e=self.z_mean_e+ tf.random.normal([FLAGS.batch_size,FLAGS.hidden24],stddev=0.1) * tf.exp(self.z_std_e)       
             z_g= self.z_mean_g+ tf.random.normal([FLAGS.batch_size,FLAGS.hidden34],stddev=0.1) * tf.exp(self.z_std_g)
+            z = tf.concat([z_n, z_e, z_g], axis=1)
+            if FLAGS.fix_factor_values == 1:
+              z_2, _ = self.fix_values(z, self.i)
+              z_n2 = tf.slice(z_2, [0,0], [FLAGS.batch_size, 3])
+              z_e2 = tf.slice(z_2, [0,3], [FLAGS.batch_size, 3])
+              z_g2 = tf.slice(z_2, [0,6], [FLAGS.batch_size, 3])
+              self.z_n2_fixed = z_n2
+              self.z_e2_fixed = z_e2
+              self.z_g2_fixed = z_g2
+              self.z_n_orig = z_n
+              self.z_e_orig = z_e
+              self.z_g_orig = z_g
+            else:
+              print("No fixed values")
+              z_n2 = z_n
+              z_e2 = z_e
+              z_g2 = z_g
             z_element=tf.random.normal([FLAGS.batch_size,self.n_samples],stddev=0.1)
-            edge_reconstruction,edge_logits,node_reconstruction= self.decoder(z_n,z_e,z_g,z_element)  
+            edge_reconstruction,edge_logits,node_reconstruction= self.decoder(z_n2,z_e2,z_g2,z_element)  
         
             
             
