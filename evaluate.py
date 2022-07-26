@@ -174,12 +174,19 @@ def main(beta,dataset_file1,dataset_file2,type_model):
             z_n=[]
             z_e=[]
             z_g=[]
+            labels=[]
             test_batch_num=int(adj_train.shape[0]/FLAGS.batch_size)
             for i in range(test_batch_num):
+                labels.append(i%FLAGS.num_factors)
                 adj_batch_test=adj_train[i*FLAGS.batch_size:i*FLAGS.batch_size+FLAGS.batch_size]
                 adj_batch_label=adj_label[i*FLAGS.batch_size:i*FLAGS.batch_size+FLAGS.batch_size]
                 feature_batch_test=node[i*FLAGS.batch_size:i*FLAGS.batch_size+FLAGS.batch_size]
-                z_n_batch,z_e_batch,z_g_batch,g,n=generate_new(adj_batch_test,adj_batch_label,feature_batch_test)
+                val = int(i%FLAGS.num_factors)
+                if FLAGS.fix_factor_values == 1:
+                    i_model, z_n_orig, z_n_fixed, z_e_orig, z_e_fixed, z_g_orig, z_g_fixed, z_n_batch,z_e_batch,z_g_batch,g,n=generate_new(adj_batch_test,adj_batch_label,feature_batch_test,val)
+                    print(f'model.i is {i_model}')
+                else:
+                    z_n_batch,z_e_batch,z_g_batch,g,n=generate_new(adj_batch_test,adj_batch_label,feature_batch_test,val)
                 graphs.append(g)
                 nodes.append(n)
                 z_n.append(z_n_batch)
@@ -191,8 +198,28 @@ def main(beta,dataset_file1,dataset_file2,type_model):
             z_e=np.array(z_e)
             z_g=np.array(z_g)
             z=np.concatenate((z_n,z_e,z_g),axis=2)
+            l=np.array(labels)
             type_name=dataset_file1.split('/')[2].split('.')[0]
-            np.save('./quantitative_evaluation/'+FLAGS.vae_type+'_'+type_name+'_z.npy',z)  
+            np.save('./quantitative_evaluation/'+FLAGS.vae_type+'_'+type_name+'_z.npy',z)
+            if (FLAGS.if_visualize==0 and FLAGS.generate_graphs==1): 
+                if FLAGS.fix_factor_values == 1:
+                    file_name = 'fixed_'+str(FLAGS.num_factors)
+                else:
+                    file_name = '_'
+                np.save('/home/csolis/forked_repo_nedvae/generated_graphs/' + type_name + '_' + file_name + '_' + "generated_graphs.npy", graphs)
+                print(f'Saved graphs to {'/home/csolis/forked_repo_nedvae/generated_graphs/' + type_name + '_' + file_name + '_' + "generated_graphs.npy"}')
+                np.save('/home/csolis/forked_repo_nedvae/generated_nodes/' + type_name + '_' + file_name + '_' + "generated_nodes.npy", nodes)
+                print(f'Saved nodes to {'/home/csolis/forked_repo_nedvae/generated_nodes/' + type_name + '_' + file_name + '_' + "generated_nodes.npy"}')
+            elif FLAGS.model_centrality == 1:
+                model_name = dataset_file1.split('/')[-1].split('.')[0]
+                name = FLAGS.model_file.split('/')[-1].split('.')[0]
+                print(f'Saving embeddings generated from {name} using graphs generated from {model_name}.')
+                print(f'Saving embeddings in /home/csolis/forked_repo_nedvae/embeddings/{name}_{model_name}_z.npy')
+                print(f'Saving labels in /home/csolis/forked_repo_nedvae/labels/{name}_{model_name}_labels.npy')
+                np.save('/home/csolis/forked_repo_nedvae/embeddings/' + name  + '_' + model_name + '_z.npy',z)
+                np.save('/home/csolis/forked_repo_nedvae/labels/' + name + '_' + model_name + '_' + 'labels.npy', l)
+            else:
+                print('Not generating graphs, not com[uting cross evaluations for model centrality. Done.')
                     
             
 
