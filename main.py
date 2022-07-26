@@ -31,8 +31,8 @@ for name in list(flags.FLAGS):
       delattr(flags.FLAGS,name)
 flags = tf.app.flags
 FLAGS = flags.FLAGS
-flags.DEFINE_float('learning_rate', 0.0002, 'Initial learning rate.')
-flags.DEFINE_integer('epochs', 1000, 'Number of epochs to train.')
+flags.DEFINE_float('learning_rate', 0.00002, 'Initial learning rate.')
+flags.DEFINE_integer('epochs', 800, 'Number of epochs to train.')
 flags.DEFINE_integer('hidden11', 10, 'Number of units in hidden layer 11.')
 flags.DEFINE_integer('hidden12', 8, 'Number of units in hidden layer 12.')
 flags.DEFINE_integer('hidden13', 3, 'Number of units in hidden layer 13.')
@@ -48,8 +48,8 @@ flags.DEFINE_float('dropout', 0.1, 'Dropout rate (1 - keep probability).')
 flags.DEFINE_float('edge_dropout', 0., 'Dropout for individual edges in training graph')
 flags.DEFINE_float('autoregressive_scalar', 0., 'Scalar for Graphite')
 flags.DEFINE_integer('vae', 1, 'for variational objective')
-flags.DEFINE_integer('batch_size', 900, 'Number of samples in a batch.')
-flags.DEFINE_integer('decoder_batch_size',900, 'Number of samples in a batch.')
+flags.DEFINE_integer('batch_size', 200, 'Number of samples in a batch.')
+flags.DEFINE_integer('decoder_batch_size',200, 'Number of samples in a batch.')
 flags.DEFINE_integer('subsample', 0, 'Subsample in optimizer')
 flags.DEFINE_float('subsample_frac', 1, 'Ratio of sampled non-edges to edges if using subsampling')
 flags.DEFINE_integer('num_feature', 2, 'Number of features.')
@@ -62,7 +62,7 @@ flags.DEFINE_string('type', 'test', 'train or test')
 flags.DEFINE_integer('if_visualize', 1, 'varying the z to see the generated graphs')
 flags.DEFINE_string('model_file', '/home/csolis/forked_repo_nedvae/models/models', 'model directory')
 flags.DEFINE_integer('beta', '10', 'value for beta-VAE regularizer or FactorVAE total correlation regualrizer')
-flags.DEFINE_string('vae_type', 'beta-VAE', 'local or global or local_global')   
+flags.DEFINE_string('vae_type', 'FactorVAE', 'local or global or local_global')   
 
 
 def ZscoreNormalization(x, mean_, std_):
@@ -162,7 +162,7 @@ def main(beta,type_model):
                   "mse_loss=", "{:.5f}".format(avg_accuracy),
                   "time=", "{:.5f}".format(time.time() - t))  
               if epoch>1 and epoch%50==0:
-                  save_path = saver.save(sess, "/home/csolis/forked_repo_nedvae/models/"+str(experiment_id) + "_" + str(beta)+".ckpt")
+                  save_path = saver.save(sess, "/home/csolis/forked_repo_nedvae/models/"+tpye_model + "_"+str(experiment_id) + "_" + str(beta)+".ckpt")
             print("Optimization Finished!")
             print("Model saved in file: %s" % save_path)
             
