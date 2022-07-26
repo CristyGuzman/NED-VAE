@@ -214,10 +214,10 @@ def main(beta,dataset_file1,dataset_file2,type_model):
                 model_name = dataset_file1.split('/')[-1].split('.')[0]
                 name = FLAGS.model_file.split('/')[-1].split('.')[0]
                 print(f'Saving embeddings generated from {name} using graphs generated from {model_name}.')
-                print(f'Saving embeddings in /home/csolis/forked_repo_nedvae/embeddings/{name}_{model_name}_z.npy')
-                print(f'Saving labels in /home/csolis/forked_repo_nedvae/labels/{name}_{model_name}_labels.npy')
-                np.save('/home/csolis/forked_repo_nedvae/embeddings/' + name  + '_' + model_name + '_z.npy',z)
-                np.save('/home/csolis/forked_repo_nedvae/labels/' + name + '_' + model_name + '_' + 'labels.npy', l)
+                print(f'Saving embeddings in /home/csolis/forked_repo_nedvae/embeddings/{name}_z.npy')
+                print(f'Saving labels in /home/csolis/forked_repo_nedvae/labels/{name}_labels.npy')
+                np.save('/home/csolis/forked_repo_nedvae/embeddings/' + name  + '_z.npy',z)
+                np.save('/home/csolis/forked_repo_nedvae/labels/' + name + '_labels.npy', l)
             else:
                 print('Not generating graphs, not com[uting cross evaluations for model centrality. Done.')
                     
