@@ -110,7 +110,7 @@ def factor_metric_compute(type_, embeddings_files_list=None, labels_files_list=N
     parser.add_argument('--save_file', type=str, help='path to file where to store score')
 
     args = parser.parse_args()
-
+    print('Computinf factor vae score')
     factor_metric_compute(type_='FactorVAE', embeddings_files_list=args.embeddings_files, labels_files_list=args.labels_files, save_file=args.save_file)
 
 
