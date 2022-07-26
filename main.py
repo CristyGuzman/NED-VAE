@@ -162,7 +162,7 @@ def main(beta,type_model):
                   "mse_loss=", "{:.5f}".format(avg_accuracy),
                   "time=", "{:.5f}".format(time.time() - t))  
               if epoch>1 and epoch%50==0:
-                  save_path = saver.save(sess, "/home/csolis/forked_repo_nedvae/models/"+tpye_model + "_"+str(experiment_id) + "_" + str(beta)+".ckpt")
+                  save_path = saver.save(sess, "/home/csolis/forked_repo_nedvae/models/"+type_model + "_"+str(experiment_id) + "_" + str(beta)+".ckpt")
             print("Optimization Finished!")
             print("Model saved in file: %s" % save_path)
             
