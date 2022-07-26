@@ -59,7 +59,7 @@ def factor_metric_compute(type_, embeddings_files_list=None, labels_files_list=N
     train_samples = np.reshape(embs_train, (embs_train.shape[0]*embs_train.shape[1],embs_train.shape[2],embs_train.shape[3]))
     test_samples = np.reshape(embs_test, (embs_test.shape[0]*embs_test.shape[1],embs_test.shape[2],embs_test.shape[3]))
 
-  D=z_a1.shape[2]
+  D=9#z_a1.shape[2]
   L=int(max(train_labels))+1#3 #3 factors
   print(f'L is {L}')
   
