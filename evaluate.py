@@ -207,9 +207,9 @@ def main(beta,dataset_file1,dataset_file2,type_model):
                 else:
                     file_name = '_'
                 np.save('/home/csolis/forked_repo_nedvae/generated_graphs/' + type_name + '_' + file_name + '_' + "generated_graphs.npy", graphs)
-                print(f'Saved graphs to {'/home/csolis/forked_repo_nedvae/generated_graphs/' + type_name + '_' + file_name + '_' + "generated_graphs.npy"}')
+                print(f'Saved graphs to /home/csolis/forked_repo_nedvae/generated_graphs/{type_name}_{file_name}_generated_graphs.npy')
                 np.save('/home/csolis/forked_repo_nedvae/generated_nodes/' + type_name + '_' + file_name + '_' + "generated_nodes.npy", nodes)
-                print(f'Saved nodes to {'/home/csolis/forked_repo_nedvae/generated_nodes/' + type_name + '_' + file_name + '_' + "generated_nodes.npy"}')
+                print(f'Saved nodes to /home/csolis/forked_repo_nedvae/generated_graphs/{type_name}_{file_name}_generated_nodes.npy')
             elif FLAGS.model_centrality == 1:
                 model_name = dataset_file1.split('/')[-1].split('.')[0]
                 name = FLAGS.model_file.split('/')[-1].split('.')[0]
