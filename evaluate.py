@@ -133,6 +133,7 @@ def main(beta,dataset_file1,dataset_file2,type_model):
                 'adj': tf.compat.v1.placeholder(tf.float32,[FLAGS.batch_size,adj_train.shape[1],adj_train.shape[2]]),
                 'adj_orig': tf.compat.v1.placeholder(tf.float32,[FLAGS.batch_size,adj_train.shape[1],adj_train.shape[2],2]),
                 'dropout': tf.compat.v1.placeholder_with_default(0., shape=()),
+                'i': tf.compat.v1.placeholder_with_default(0, shape=()),
             }
         
         #model = GCNModelFeedback(placeholders, num_features, num_nodes)
