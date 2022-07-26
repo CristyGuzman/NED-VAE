@@ -154,15 +154,20 @@ def main(beta,dataset_file1,dataset_file2,type_model):
      
         saver = tf.compat.v1.train.Saver()
             
-        def generate_new(adj_test,adj_label,features):
+        def generate_new(adj_test,adj_label,features,i):
            feed_dict = construct_feed_dict(adj_test, adj_label, features, placeholders)
            feed_dict.update({placeholders['dropout']: 0})
-           z_n,z_e,z_g,g,node = sess.run([model.z_mean_n,model.z_mean_e,model.z_mean_g, model.sample_rec_edge,model.sample_rec_node], feed_dict=feed_dict)
-           return z_n,z_e,z_g,g,node   
+           feed_dict.update({placeholders['i']: i})
+           if FLAGS.fix_factor_values == 1:
+               i_model, z_n_orig, z_n_fixed, z_e_orig, z_e_fixed, z_g_orig, z_g_fixed, z_n,z_e,z_g,g,node = sess.run([model.i, model.z_n_orig, model.z_n2_fixed, model.z_e_orig, model.z_e2_fixed, model.z_g_orig, model.z_g2_fixed, model.z_mean_n,model.z_mean_e,model.z_mean_g, model.sample_rec_edge,model.sample_rec_node], feed_dict=feed_dict)
+               return i_model, z_n_orig, z_n_fixed, z_e_orig, z_e_fixed, z_g_orig, z_g_fixed, z_n,z_e,z_g,g,node  
+           else:
+               z_n,z_e,z_g,g,node = sess.run([model.z_mean_n,model.z_mean_e,model.z_mean_g, model.sample_rec_edge,model.sample_rec_node], feed_dict=feed_dict)
+               return z_n,z_e,z_g,g,node   
             
         if FLAGS.type=='test':
           with tf.compat.v1.Session() as sess:
-            saver.restore(sess, "./tmp/model_dgt_global_"+FLAGS.vae_type+".ckpt")
+            saver.restore(sess, FLAGS.model_file)
             print("Model restored.")
             graphs=[]
             nodes=[]
