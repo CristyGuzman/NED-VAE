@@ -184,7 +184,8 @@ def main(beta,dataset_file1,dataset_file2,type_model):
             
 
 if __name__ == '__main__':
-    types=['beta-VAE','DIP-VAE','InfoVAE','FactorVAE','HFVAE']
+    #types=['beta-VAE','DIP-VAE','InfoVAE','FactorVAE','HFVAE']
+    types=['FactorVAE']
     for t in types:
          tf.compat.v1.reset_default_graph()
          main(20,'./graph_generator/WS_graph_testing_a1.npy','./graph_generator/WS_graph_testing_a1_nodes.npy',t)
