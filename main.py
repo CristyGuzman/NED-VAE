@@ -60,6 +60,10 @@ flags.DEFINE_integer('seeded', 1, 'Set numpy random seed')
 flags.DEFINE_integer('connected_split', 0, 'use split with training set always connected')
 flags.DEFINE_string('type', 'test', 'train or test')
 flags.DEFINE_integer('if_visualize', 1, 'varying the z to see the generated graphs')
+flags.DEFINE_string('model_file', '/home/csolis/forked_repo_nedvae/models/models', 'model directory')
+flags.DEFINE_integer('beta', '10', 'value for beta-VAE regularizer or FactorVAE total correlation regualrizer')
+flags.DEFINE_string('vae_type', 'beta-VAE', 'local or global or local_global')   
+
 
 def ZscoreNormalization(x, mean_, std_):
     """Z-score normaliaztion"""
@@ -110,6 +114,7 @@ def main(beta,type_model):
                 'adj': tf.compat.v1.placeholder(tf.float32,[FLAGS.batch_size,adj_train.shape[1],adj_train.shape[2]]),
                 'adj_orig': tf.compat.v1.placeholder(tf.float32,[FLAGS.batch_size,adj_train.shape[1],adj_train.shape[2],2]),
                 'dropout': tf.compat.v1.placeholder_with_default(0., shape=()),
+                'i': tf.compat.v1.placeholder_with_default(0, shape=()),
             }
         
         #model = GCNModelFeedback(placeholders, num_features, num_nodes)
@@ -132,6 +137,7 @@ def main(beta,type_model):
         if FLAGS.type=='train':
           with tf.compat.v1.Session() as sess:
             sess.run(tf.compat.v1.global_variables_initializer()) 
+            experiment_id = int(time.time())
              # Train model
             for epoch in range(FLAGS.epochs):
               batch_num=int(adj_train.shape[0]/FLAGS.batch_size)
@@ -156,7 +162,7 @@ def main(beta,type_model):
                   "mse_loss=", "{:.5f}".format(avg_accuracy),
                   "time=", "{:.5f}".format(time.time() - t))  
               if epoch>1 and epoch%50==0:
-                      save_path = saver.save(sess, "./tmp/model_dgt_global_"+FLAGS.vae_type+".ckpt")
+                  save_path = saver.save(sess, "/home/csolis/forked_repo_nedvae/models/"+str(experiment_id) + "_" + str(beta)+".ckpt")
             print("Optimization Finished!")
             print("Model saved in file: %s" % save_path)
             
@@ -168,7 +174,7 @@ def main(beta,type_model):
             
         if FLAGS.type=='test':
           with tf.compat.v1.Session() as sess:
-            saver.restore(sess, "./tmp/model_dgt_global_"+FLAGS.vae_type+".ckpt")
+            saver.restore(sess, FLAGS.model_file)
             print("Model restored.")
             graphs=[]
             nodes=[]
@@ -202,8 +208,8 @@ def main(beta,type_model):
             
 
 if __name__ == '__main__': 
-        types=['beta-VAE']   #,,,'InfoVAE',,,   ,'HFVAE'],,,,'InfoVAE''FactorVAE''InfoVAE','DIP-VAE''FactorVAE','HFVAE'
-        for t in types:
-          tf.compat.v1.reset_default_graph()
-          main(10,t)
-          #FactorVAE,HFVAE-batch_size is small and lr is small:200,0.00002, 800 epochs, or will easy for gradient clappse
+        #types=['beta-VAE']   #,,,'InfoVAE',,,   ,'HFVAE'],,,,'InfoVAE''FactorVAE''InfoVAE','DIP-VAE''FactorVAE','HFVAE'
+        #for t in types:
+        tf.compat.v1.reset_default_graph()
+        main(FLAGS.beta,FLAGS.vae_type)
+        #FactorVAE,HFVAE-batch_size is small and lr is small:200,0.00002, 800 epochs, or will easy for gradient clappse
