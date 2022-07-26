@@ -96,6 +96,10 @@ def factor_metric_compute(type_, embeddings_files_list=None, labels_files_list=N
   test_accuracy = np.sum(testing_votes[other_index,C]) * 1. / np.sum(testing_votes)
   print(type_+"factor Training set accuracy: ", train_accuracy)
   print(type_+"factor Evaluation set accuracy: ", test_accuracy)
+  if save_file is not None:
+    file1 = open(save_file, "a")
+    file1.write(str(save_file)+ '\n')
+    file1.write('Factor-vae score:'+str(test_accuracy) + '\n')
   return test_accuracy
 
 
