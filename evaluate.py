@@ -76,7 +76,7 @@ flags.DEFINE_integer('if_visualize', 0, 'varying the z to see the generated grap
 flags.DEFINE_string('model_dir', '/home/csolis/forked_repo_nedvae/models', 'model to be loaded for evaluation')
 flags.DEFINE_integer('generate_graphs', 0, 'if 1, generates graphs from specified folder in model_file arg')
 flags.DEFINE_integer('fixed_factor', 7, 'fixes node/graph/edge embedding to same value')
-flags.DEFINE_string('model_file', '/home/csolis/nedvae_repo/NED-VAE/models/beta-VAE/1657141272model_dgt_global_950.ckpt', 'model directory')
+flags.DEFINE_string('model_file', '/home/csolis/forked_repo_nedvae/NED-VAE/models/beta-VAE/1657141272model_dgt_global_950.ckpt', 'model directory')
 flags.DEFINE_integer('model_centrality', 0, 'Indicates if embeddings should be stored for computing model centrality')
 flags.DEFINE_integer('fix_factor_values', 0, 'If 1, fixes values in dimension givne by FLAGS.fixed_factor')
 flags.DEFINE_integer('num_factors', 3, 'For now only accepts either 9 or 3 factors, number of generative factors.')
