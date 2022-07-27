@@ -90,7 +90,9 @@ def DCI_metric_compute(type_, embeddings_file=None, factors_file=None, save_file
   if save_file is not None:
     file1 = open(save_file, "a")
     file1.write(str(save_file)+ '\n')
-    file1.write('disentanglement score:'+str(disentanglement(importance_matrix) + '\n')
+    file1.write('disentanglement score:'+str(disentanglement(importance_matrix)) + '\n')
+    file1.write('completeness score:'+str(completeness(importance_matrix)) + '\n')
+    file1.write('informativeness score:'+str(test_err) + '\n')
   return test_err, disentanglement(importance_matrix),completeness(importance_matrix)
 
 if __name__ == '__main__':
