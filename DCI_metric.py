@@ -8,6 +8,7 @@ from sklearn.ensemble import GradientBoostingClassifier
 import numpy as np
 import scipy
 from sklearn.preprocessing import KBinsDiscretizer
+import argparse
 
 
 def compute_importance_gbt(x_train, y_train, x_test, y_test):
@@ -64,12 +65,17 @@ def make_discretizer(target, num_bins):
     Dis=KBinsDiscretizer(num_bins, encode='ordinal').fit(target.reshape(-1,1))   
     return Dis.transform(target.reshape(-1,1)).reshape(-1)
 
-def DCI_metric_compute(type_):
+def DCI_metric_compute(type_, embeddings_file=None, factors_file=None, save_file=None):
   num_bin=10
-  continuous_factors=[True,True,True]
-  path='/home/csolis/forked_repo_nedvae/quantitative_evaluation/'
-  factor=np.transpose(np.load(path+'WS_factor_testing2.npy'))
-  code=np.transpose(np.load(path+type_+'_WS_graph_testing2_z.npy').reshape(-1,9))
+  if embeddings_file is None and factors_file is None:
+    continuous_factors=[True,True,True]
+    path='/home/csolis/forked_repo_nedvae/quantitative_evaluation/'
+    factor=np.transpose(np.load(path+'WS_factor_testing2.npy'))
+    code=np.transpose(np.load(path+type_+'_WS_graph_testing2_z.npy').reshape(-1,9))
+  else:
+    factor=np.transpose(np.load(embeddings_file).reshape(-1,9))
+    code=np.transpose(np.load(factors_file).reshape(-1,9))
+    continuous_factors = [True]*factor.shape[0]
   for i in range(factor.shape[0]):
     if continuous_factors[i]==True:
         factor[i]=make_discretizer(factor[i],num_bin) #make the continous factor as discrete
@@ -82,3 +88,14 @@ def DCI_metric_compute(type_):
   print(type_+"DCI disentanglement:"+str(disentanglement(importance_matrix)))
   print(type_+"DCI completeness: "+str(completeness(importance_matrix)))
   return test_err, disentanglement(importance_matrix),completeness(importance_matrix)
+
+if __name__ == '__main__':
+  parser = argparse.ArgumentParser()
+  parser.add_argument('--embeddings_file', type=str, help='list of embeddings_files')
+  parser.add_argument('--factors_file', type=str, help='list of labels files')
+  parser.add_argument('--save_file', type=str, help='path to file where to store score')
+
+  args = parser.parse_args()
+
+  DCI_metric_compute(type_='DCI', embeddings_file=args.embeddings_file, factors_file=args.factors_file, save_file=args.save_file)
+
