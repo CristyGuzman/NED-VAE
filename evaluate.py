@@ -199,7 +199,7 @@ def main(beta,dataset_file1,dataset_file2,type_model):
             z_g=np.array(z_g)
             z=np.concatenate((z_n,z_e,z_g),axis=2)
             l=np.array(labels)
-            type_name=dataset_file1.split('/')[2].split('.')[0]
+            type_name=dataset_file1.split('/')[-1].split('.')[0]
             np.save('./quantitative_evaluation/'+FLAGS.vae_type+'_'+type_name+'_z.npy',z)
             if (FLAGS.if_visualize==0 and FLAGS.generate_graphs==1): 
                 if FLAGS.fix_factor_values == 1:
