@@ -25,8 +25,8 @@ NODES_FILE="/home/csolis/forked_repo_nedvae/generated_nodes/WS_graph_testing2_fi
 python /home/csolis/forked_repo_nedvae/NED-VAE/generate_embeddings.py --model_centrality 1 --fix_factor_values 0 --generate_graphs 0 --graphs_file $GRAPHS_FILE --nodes_file $NODES_FILE --model_file $MODEL_I_DIR --num_factors $DIMS
 
 
-EMBEDDINGS="/home/csolis/forked_repo_nedvae/embeddings/${MODEL_I}_WS_graph_testing2_fixed_${DIMS}_generated_graphs_z.npy" 
-LABELS="/home/csolis/forked_repo_nedvae/labels/${MODEL_I}_WS_graph_testing2_fixed_${DIMS}_generated_graphs_labels.npy" 
+EMBEDDINGS="/home/csolis/forked_repo_nedvae/embeddings/${MODEL_I}_z.npy" 
+LABELS="/home/csolis/forked_repo_nedvae/labels/${MODEL_I}_labels.npy" 
 
 python /home/csolis/forked_repo_nedvae/NED-VAE/Factor_metric.py --embeddings_files $EMBEDDINGS --labels_files $LABELS --save_file $SAVE_MC_DIR
 
