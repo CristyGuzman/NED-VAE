@@ -40,7 +40,7 @@ python /home/csolis/forked_repo_nedvae/NED-VAE/generate_embeddings.py --model_ce
 
 
 EMBEDDINGS="/home/csolis/forked_repo_nedvae/embeddings/${MODEL_I}_z.npy" 
-FACTOR_EMBEDDINGS="/home/csolis/forked_repo_nedvae/NED-VAE/models/FactorVAE/trained_models/${MODEL_J}_WS_graph_testing2_testing2___z.npy"
+FACTOR_EMBEDDINGS="/home/csolis/forked_repo_nedvae/NED-VAE/models/FactorVAE/trained_models/${MODEL_J}_WS_graph_testing2___z.npy"
 
 python /home/csolis/forked_repo_nedvae/NED-VAE/DCI_metric.py --embeddings_file $EMBEDDINGS --factors_file $FACTOR_EMBEDDINGS --save_file $SAVE_MC_DIR
 
