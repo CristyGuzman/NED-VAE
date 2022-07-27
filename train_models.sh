@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for seed in {1..3}
+for seed in {1..7}
 do
   echo $seed
   for beta in 1 10 20 40
