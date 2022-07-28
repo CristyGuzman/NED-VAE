@@ -184,7 +184,7 @@ def main(beta,dataset_file1,dataset_file2,type_model):
                 val = int(i%FLAGS.num_factors)
                 if FLAGS.fix_factor_values == 1:
                     i_model, z_n_orig, z_n_fixed, z_e_orig, z_e_fixed, z_g_orig, z_g_fixed, z_n_batch,z_e_batch,z_g_batch,g,n=generate_new(adj_batch_test,adj_batch_label,feature_batch_test,val)
-                    print(f'model.i is {i_model}')
+                    #print(f'model.i is {i_model}')
                 else:
                     z_n_batch,z_e_batch,z_g_batch,g,n=generate_new(adj_batch_test,adj_batch_label,feature_batch_test,val)
                 graphs.append(g)
