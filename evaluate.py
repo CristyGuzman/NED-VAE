@@ -206,6 +206,13 @@ def main(beta,dataset_file1,dataset_file2,type_model):
                     file_name = 'fixed_'+str(FLAGS.num_factors)
                 else:
                     file_name = '_'
+                try:
+                    graphs_path = '/home/csolis/forked_repo_nedvae/generated_graphs/' + type_name + '_' + file_name + '_' + 'generated_graphs.npy'
+                    nodes_path = '/home/csolis/forked_repo_nedvae/generated_nodes/' + type_name + '_' + file_name + '_' + 'generated_nodes.npy'
+                    os.remove(graphs_path)
+                    os.remove(nodes_path)
+                except OSError:
+                    pass
                 np.save('/home/csolis/forked_repo_nedvae/generated_graphs/' + type_name + '_' + file_name + '_' + "generated_graphs.npy", graphs)
                 print(f'Saved graphs to /home/csolis/forked_repo_nedvae/generated_graphs/{type_name}_{file_name}_generated_graphs.npy')
                 np.save('/home/csolis/forked_repo_nedvae/generated_nodes/' + type_name + '_' + file_name + '_' + "generated_nodes.npy", nodes)
@@ -214,6 +221,13 @@ def main(beta,dataset_file1,dataset_file2,type_model):
                 model_name = dataset_file1.split('/')[-1].split('.')[0]
                 name = FLAGS.model_file.split('/')[-1].split('.')[0]
                 print(f'Saving embeddings generated from {name} using graphs generated from {model_name}.')
+                try:
+                    z_path = '/home/csolis/forked_repo_nedvae/embeddings/' + name  + '_z.npy'
+                    labels_path='/home/csolis/forked_repo_nedvae/labels/' + name + '_labels.npy'
+                    os.remove(z_path)
+                    os.remove(labels_path)
+                except OSError:
+                    pass
                 print(f'Saving embeddings in /home/csolis/forked_repo_nedvae/embeddings/{name}_z.npy')
                 print(f'Saving labels in /home/csolis/forked_repo_nedvae/labels/{name}_labels.npy')
                 np.save('/home/csolis/forked_repo_nedvae/embeddings/' + name  + '_z.npy',z)
