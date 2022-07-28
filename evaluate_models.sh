@@ -8,6 +8,7 @@
 # model_file=PATH/TO/MODEL.ckpt
 
 set -e
+set -o xtrace
 while [ $# -gt 0 ] 
 do
     echo $1
