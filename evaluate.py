@@ -200,7 +200,14 @@ def main(beta,dataset_file1,dataset_file2,type_model):
             z=np.concatenate((z_n,z_e,z_g),axis=2)
             l=np.array(labels)
             type_name=dataset_file1.split('/')[-1].split('.')[0]
+            try:
+                z_path = './quantitative_evaluation/'+FLAGS.vae_type+'_'+type_name+'_z.npy'
+                os.remove(z_path)
+            except OSError:
+                pass
             np.save('./quantitative_evaluation/'+FLAGS.vae_type+'_'+type_name+'_z.npy',z)
+            model_file_pth = FLAGS.model_file.split('/')[-1].split('.')[0]
+            np.save('./quantitative_evaluation/'+model_file_pth+'_z.npy',z)
             if (FLAGS.if_visualize==0 and FLAGS.generate_graphs==1): 
                 if FLAGS.fix_factor_values == 1:
                     file_name = 'fixed_'+str(FLAGS.num_factors)
