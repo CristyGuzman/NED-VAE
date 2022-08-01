@@ -40,7 +40,6 @@ def MIG_compute(type_, embeddings_file=None, factors_file=None, save_file=None):
     factor=np.transpose(np.load(path+'WS_factor_testing2.npy'))
     code=np.transpose(np.load(path+type_+'_WS_graph_testing2_z.npy').reshape(-1,9))
   else:
-    else:
     factor=np.transpose(np.load(embeddings_file).reshape(-1,9))
     code=np.transpose(np.load(factors_file).reshape(-1,9))
 
