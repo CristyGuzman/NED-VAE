@@ -244,7 +244,7 @@ def main(beta,dataset_file1,dataset_file2,type_model):
                     
 
 def mc_matrices(*model_names):    
-    models = [str(m) for m in models_names]
+    models = [str(m) for m in model_names]
     models_dict = {j:i for i,j in enumerate(models)}
 
     factor_mc_matrix = np.zeros((len(models_dict), len(models_dict)))
