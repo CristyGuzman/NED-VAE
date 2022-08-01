@@ -48,6 +48,10 @@ def MIG_compute(type_, embeddings_file=None, factors_file=None, save_file=None):
   entropy_h = discrete_entropy(factor,num_bin)
   sorted_m = np.sort(m, axis=0)[::-1]
   print('MIG score: '+str(np.mean(np.divide(sorted_m[0, :] - sorted_m[1, :], entropy_h[:]))))
+  if save_file is not None:
+    file1 = open(save_file, "a")
+    file1.write(str(save_file)+ '\n')
+    file1.write('MIG score:'+str(np.mean(np.divide(sorted_m[0, :] - sorted_m[1, :], entropy_h[:]))))
   return np.mean(np.divide(sorted_m[0, :] - sorted_m[1, :], entropy_h[:]))
 
 if __name__ == '__main__':
