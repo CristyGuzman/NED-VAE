@@ -11,6 +11,7 @@ from __future__ import print_function
 import time
 import os
 import sys
+from tqdm import tqdm
 
 import tensorflow as tf
 import numpy as np
@@ -251,7 +252,7 @@ def mc_matrices(*model_names):
     d_mc_matrix = np.zeros((len(models_dict), len(models_dict)))
     c_mc_matrix = np.zeros((len(models_dict), len(models_dict)))
     i_mc_matrix = np.zeros((len(models_dict), len(models_dict)))
-    for model_i in models:
+    for i, model_i in tqdm(enumerate(models)):
         for model_j in models:
             pth_factor = '/home/csolis/forked_repo_nedvae/mc_scores/FactorVAE_'+str(model_i)+'_FactorVAE_'+str(model_j)+'_FactorVAE_3.txt'
             pth_dci = '/home/csolis/forked_repo_nedvae/mc_scores/FactorVAE_'+str(model_i)+'_FactorVAE_'+str(model_j)+'_DCI_9.txt'
