@@ -70,6 +70,6 @@ python /home/csolis/forked_repo_nedvae/NED-VAE/generate_embeddings.py --model_ce
 EMBEDDINGS="/home/csolis/forked_repo_nedvae/embeddings/${MODEL_I}_z.npy" 
 FACTOR_EMBEDDINGS="/home/csolis/forked_repo_nedvae/quantitative_evaluation/FactorVAE_WS_graph_testing2_z.npy"
 
-python /home/csolis/forked_repo_nedvae/NED-VAE/MIG_metric.py --embeddings_file $EMBEDDINGS --factors_file $FACTOR_EMBEDDINGS --save_file $SAVE_MC_DIR
+python /home/csolis/forked_repo_nedvae/NED-VAE/SAP_metric.py --embeddings_file $EMBEDDINGS --factors_file $FACTOR_EMBEDDINGS --save_file $SAVE_MC_DIR
 
 fi
