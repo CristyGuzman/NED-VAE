@@ -44,10 +44,15 @@ def compute_avg_diff_top_two(matrix):
   return np.mean(sorted_matrix[-1, :] - sorted_matrix[-2, :])
 
 def SAP_compute(type_):
-  continuous_factors=[True,True,True]
-  path='/home/csolis/forked_repo_nedvae/quantitative_evaluation/'
-  factor=np.transpose(np.load(path+'WS_factor_testing2.npy'))
-  code=np.transpose(np.load(path+type_+'_WS_graph_testing2_z.npy').reshape(-1,9))
+  if embeddings_file is None and factors_file is None:
+    continuous_factors=[True,True,True]
+    path='/home/csolis/forked_repo_nedvae/quantitative_evaluation/'
+    factor=np.transpose(np.load(path+'WS_factor_testing2.npy'))
+    code=np.transpose(np.load(path+type_+'_WS_graph_testing2_z.npy').reshape(-1,9))
+  else:
+    factor=np.transpose(np.load(embeddings_file).reshape(-1,9))
+    code=np.transpose(np.load(factors_file).reshape(-1,9))
+    continuous_factors = [True]*factor.shape[0]
   train_length=int(factor.shape[1]/2)
   score_matrix = compute_score_matrix(code[:,:train_length], factor[:,:train_length], code[:,train_length:], factor[:,train_length:], continuous_factors)
   # Score matrix should have shape [num_latents, num_factors].
