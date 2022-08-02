@@ -6,6 +6,7 @@ Created on Sun Jan 19 14:46:42 2020
 """
 
 import numpy as np
+import argparse
 from sklearn import svm
 
 
@@ -43,7 +44,7 @@ def compute_avg_diff_top_two(matrix):
   sorted_matrix = np.sort(matrix, axis=0)
   return np.mean(sorted_matrix[-1, :] - sorted_matrix[-2, :])
 
-def SAP_compute(type_):
+def SAP_compute(type_, embeddings_file=None, factors_file=None, save_file=None):
   if embeddings_file is None and factors_file is None:
     continuous_factors=[True,True,True]
     path='/home/csolis/forked_repo_nedvae/quantitative_evaluation/'
@@ -56,6 +57,23 @@ def SAP_compute(type_):
   train_length=int(factor.shape[1]/2)
   score_matrix = compute_score_matrix(code[:,:train_length], factor[:,:train_length], code[:,train_length:], factor[:,train_length:], continuous_factors)
   # Score matrix should have shape [num_latents, num_factors].
+  sap = compute_avg_diff_top_two(score_matrix)
+  print(type_+"SAP_score: ",sap)
+  if save_file is not None:
+    print(f'Saving to {save_file}')
+    file1 = open(save_file, "a")
+    file1.write(str(save_file)+ '\n')
+    file1.write('SAP score:'+str(sap))
+  return sap
 
-  print(type_+"SAP_score: ",compute_avg_diff_top_two(score_matrix))
-  return compute_avg_diff_top_two(score_matrix)
+if __name__ == '__main__':
+  parser = argparse.ArgumentParser()
+  parser.add_argument('--embeddings_file', type=str, help='list of embeddings_files')
+  parser.add_argument('--factors_file', type=str, help='list of labels files')
+  parser.add_argument('--save_file', type=str, help='path to file where to store score')
+
+  args = parser.parse_args()
+
+  SAP_compute(type_='FactorVAE ', embeddings_file=args.embeddings_file, factors_file=args.factors_file, save_file=args.save_file)
+
+
