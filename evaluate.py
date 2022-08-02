@@ -244,32 +244,55 @@ def main(beta,dataset_file1,dataset_file2,type_model):
                 print('Not generating graphs, not com[uting cross evaluations for model centrality. Done.')
                     
 
-def mc_matrices(*model_names):    
+def mc_matrices(type_=None, *model_names):    
     models = [str(m) for m in model_names]
     models_dict = {j:i for i,j in enumerate(models)}
+    if type_ is None:
+        factor_mc_matrix = np.zeros((len(models_dict), len(models_dict)))
+        d_mc_matrix = np.zeros((len(models_dict), len(models_dict)))
+        c_mc_matrix = np.zeros((len(models_dict), len(models_dict)))
+        i_mc_matrix = np.zeros((len(models_dict), len(models_dict)))
+        for i, model_i in tqdm(enumerate(models)):
+            for model_j in models:
+                pth_factor = '/home/csolis/forked_repo_nedvae/mc_scores/FactorVAE_'+str(model_i)+'_FactorVAE_'+str(model_j)+'_FactorVAE_3.txt'
+                pth_dci = '/home/csolis/forked_repo_nedvae/mc_scores/FactorVAE_'+str(model_i)+'_FactorVAE_'+str(model_j)+'_DCI_9.txt'
+                with open(pth_factor) as f:
+                    lines = f.readlines()
+                    lines_f = [line.rstrip() for line in lines] 
+                with open(pth_dci) as f:
+                    lines = f.readlines()
+                    lines_dci = [line.rstrip() for line in lines] 
+                factor_mc_matrix[models_dict[model_i], models_dict[model_j]] = float(lines_f[-1].split(':')[-1])
+                d_mc_matrix[models_dict[model_i], models_dict[model_j]] = float(lines_dci[1].split(':')[-1])
+                c_mc_matrix[models_dict[model_i], models_dict[model_j]] = float(lines_dci[2].split(':')[-1])
+                i_mc_matrix[models_dict[model_i], models_dict[model_j]] = float(lines_dci[3].split(':')[-1])
+        np.save('/home/csolis/forked_repo_nedvae/mc_matrices/factor_mc.npy',factor_mc_matrix)
+        np.save('/home/csolis/forked_repo_nedvae/mc_matrices/disentanglement_mc.npy',d_mc_matrix)
+        np.save('/home/csolis/forked_repo_nedvae/mc_matrices/completeness_mc.npy',c_mc_matrix)
+        np.save('/home/csolis/forked_repo_nedvae/mc_matrices/informativeness_mc.npy',i_mc_matrix)   
 
-    factor_mc_matrix = np.zeros((len(models_dict), len(models_dict)))
-    d_mc_matrix = np.zeros((len(models_dict), len(models_dict)))
-    c_mc_matrix = np.zeros((len(models_dict), len(models_dict)))
-    i_mc_matrix = np.zeros((len(models_dict), len(models_dict)))
-    for i, model_i in tqdm(enumerate(models)):
-        for model_j in models:
-            pth_factor = '/home/csolis/forked_repo_nedvae/mc_scores/FactorVAE_'+str(model_i)+'_FactorVAE_'+str(model_j)+'_FactorVAE_3.txt'
-            pth_dci = '/home/csolis/forked_repo_nedvae/mc_scores/FactorVAE_'+str(model_i)+'_FactorVAE_'+str(model_j)+'_DCI_9.txt'
-            with open(pth_factor) as file:
-                lines = file.readlines()
-                lines_f = [line.rstrip() for line in lines] 
-            with open(pth_dci) as file:
-                lines = file.readlines()
-                lines_dci = [line.rstrip() for line in lines] 
-            factor_mc_matrix[models_dict[model_i], models_dict[model_j]] = float(lines_f[-1].split(':')[-1])
-            d_mc_matrix[models_dict[model_i], models_dict[model_j]] = float(lines_dci[1].split(':')[-1])
-            c_mc_matrix[models_dict[model_i], models_dict[model_j]] = float(lines_dci[2].split(':')[-1])
-            i_mc_matrix[models_dict[model_i], models_dict[model_j]] = float(lines_dci[3].split(':')[-1])
-    np.save('/home/csolis/forked_repo_nedvae/mc_matrices/factor_mc.npy',factor_mc_matrix)
-    np.save('/home/csolis/forked_repo_nedvae/mc_matrices/disentanglement_mc.npy',d_mc_matrix)
-    np.save('/home/csolis/forked_repo_nedvae/mc_matrices/completeness_mc.npy',c_mc_matrix)
-    np.save('/home/csolis/forked_repo_nedvae/mc_matrices/informativeness_mc.npy',i_mc_matrix)         
+    elif type_ == 'MIG':
+        mig_mc_matrix = np.zeros((len(models_dict), len(models_dict)))
+        for i, model_i in tqdm(enumerate(models)):
+            for model_j in models:
+                pth_mig = '/home/csolis/forked_repo_nedvae/mc_scores/FactorVAE_'+str(model_i)+'_FactorVAE_'+str(model_j)+'_MIG_9.txt'
+                with open(pth_mig) as f:
+                    lines = f.readlines()
+                    lines_f = [line.rstrip() for line in lines] 
+                mig_mc_matrix[models_dict[model_i], models_dict[model_j]] = float(lines_f[-1].split(':')[-1])
+        np.save('/home/csolis/forked_repo_nedvae/mc_matrices/mig_mc.npy',mig_mc_matrix)
+
+    elif type_ == 'SAP':
+        sap_mc_matrix = np.zeros((len(models_dict), len(models_dict)))
+        for i, model_i in tqdm(enumerate(models)):
+            for model_j in models:
+                pth_sap = '/home/csolis/forked_repo_nedvae/mc_scores/FactorVAE_'+str(model_i)+'_FactorVAE_'+str(model_j)+'_SAP_9.txt'
+                with open(pth_sap) as f:
+                    lines = f.readlines()
+                    lines_f = [line.rstrip() for line in lines] 
+                sap_mc_matrix[models_dict[model_i], models_dict[model_j]] = float(lines_f[-1].split(':')[-1])
+        np.save('/home/csolis/forked_repo_nedvae/mc_matrices/sap_mc.npy',sap_mc_matrix)
+
 
 if __name__ == '__main__':
     #types=['beta-VAE','DIP-VAE','InfoVAE','FactorVAE','HFVAE']
