@@ -19,8 +19,8 @@ python /home/csolis/forked_repo_nedvae/NED-VAE/evaluate.py --vae_type FactorVAE 
 
 
 if [ $METRIC == "FactorVAE" ] ; then
-GRAPHS_FILE="/home/csolis/forked_repo_nedvae/generated_graphs/WS_graph_testing2_fixed_${DIMS}_generated_graphs.npy" 
-NODES_FILE="/home/csolis/forked_repo_nedvae/generated_nodes/WS_graph_testing2_fixed_${DIMS}_generated_nodes.npy" 
+GRAPHS_FILE="/home/csolis/forked_repo_nedvae/generated_graphs/${MODEL_J}_WS_graph_testing2_fixed_${DIMS}_generated_graphs.npy" 
+NODES_FILE="/home/csolis/forked_repo_nedvae/generated_nodes/${MODEL_J}_WS_graph_testing2_fixed_${DIMS}_generated_nodes.npy" 
 
 python /home/csolis/forked_repo_nedvae/NED-VAE/generate_embeddings.py --model_centrality 1 --fix_factor_values 0 --generate_graphs 0 --graphs_file $GRAPHS_FILE --nodes_file $NODES_FILE --model_file $MODEL_I_DIR --num_factors $DIMS
 
@@ -33,8 +33,8 @@ python /home/csolis/forked_repo_nedvae/NED-VAE/Factor_metric.py --embeddings_fil
 fi
 
 if [ $METRIC == "DCI" ] ; then
-GRAPHS_FILE="/home/csolis/forked_repo_nedvae/generated_graphs/WS_graph_testing2___generated_graphs.npy" 
-NODES_FILE="/home/csolis/forked_repo_nedvae/generated_nodes/WS_graph_testing2___generated_nodes.npy" 
+GRAPHS_FILE="/home/csolis/forked_repo_nedvae/generated_graphs/${MODEL_J}_WS_graph_testing2___generated_graphs.npy" 
+NODES_FILE="/home/csolis/forked_repo_nedvae/generated_nodes/${MODEL_J}_WS_graph_testing2___generated_nodes.npy" 
 
 python /home/csolis/forked_repo_nedvae/NED-VAE/generate_embeddings.py --model_centrality 1 --fix_factor_values 0 --generate_graphs 0 --graphs_file $GRAPHS_FILE --nodes_file $NODES_FILE --model_file $MODEL_I_DIR --num_factors $DIMS
 
@@ -47,8 +47,8 @@ python /home/csolis/forked_repo_nedvae/NED-VAE/DCI_metric.py --embeddings_file $
 fi
 
 if [ $METRIC == "MIG" ] ; then
-GRAPHS_FILE="/home/csolis/forked_repo_nedvae/generated_graphs/WS_graph_testing2___generated_graphs.npy" 
-NODES_FILE="/home/csolis/forked_repo_nedvae/generated_nodes/WS_graph_testing2___generated_nodes.npy" 
+GRAPHS_FILE="/home/csolis/forked_repo_nedvae/generated_graphs/${MODEL_J}_WS_graph_testing2___generated_graphs.npy" 
+NODES_FILE="/home/csolis/forked_repo_nedvae/generated_nodes/${MODEL_J}_WS_graph_testing2___generated_nodes.npy" 
 
 python /home/csolis/forked_repo_nedvae/NED-VAE/generate_embeddings.py --model_centrality 1 --fix_factor_values 0 --generate_graphs 0 --graphs_file $GRAPHS_FILE --nodes_file $NODES_FILE --model_file $MODEL_I_DIR --num_factors $DIMS
 
@@ -61,8 +61,8 @@ python /home/csolis/forked_repo_nedvae/NED-VAE/MIG_metric.py --embeddings_file $
 fi
 
 if [ $METRIC == "SAP" ] ; then
-GRAPHS_FILE="/home/csolis/forked_repo_nedvae/generated_graphs/WS_graph_testing2___generated_graphs.npy" 
-NODES_FILE="/home/csolis/forked_repo_nedvae/generated_nodes/WS_graph_testing2___generated_nodes.npy" 
+GRAPHS_FILE="/home/csolis/forked_repo_nedvae/generated_graphs/${MODEL_J}_WS_graph_testing2___generated_graphs.npy" 
+NODES_FILE="/home/csolis/forked_repo_nedvae/generated_nodes/${MODEL_J}_WS_graph_testing2___generated_nodes.npy" 
 
 python /home/csolis/forked_repo_nedvae/NED-VAE/generate_embeddings.py --model_centrality 1 --fix_factor_values 0 --generate_graphs 0 --graphs_file $GRAPHS_FILE --nodes_file $NODES_FILE --model_file $MODEL_I_DIR --num_factors $DIMS
 
